@@ -1,0 +1,26 @@
+{
+  "name": "act",
+  "version": "1.0.0",
+  "main": "dist/act-widget.js",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "rm -rf dist && mkdir -p dist && npx esbuild src/index.js --bundle --format=iife --global-name=PendoAct --sourcemap --minify --outfile=dist/act-widget.js && cp styles/act-widget.css dist/act-widget.css",
+    "dev": "npx esbuild src/index.js --bundle --format=iife --global-name=PendoAct --sourcemap --outfile=dist/act-widget.js --watch",
+    "preview": "npx http-server dist -c-1 -p 8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ravidorr/act.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ravidorr/act/issues"
+  },
+  "homepage": "https://github.com/ravidorr/act#readme",
+  "description": "Pendo Act POC (client-side automation) - JavaScript bundle for Resource Center custom module.",
+  "devDependencies": {
+    "esbuild": "^0.23.1"
+  }
+}

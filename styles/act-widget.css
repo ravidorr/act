@@ -1,0 +1,48 @@
+/* Pendo Act POC widget styles (no inline CSS used elsewhere) */
+
+.pact-root { position: fixed; inset: auto 16px 16px auto; z-index: 2147483000; }
+
+.pact-launcher {
+  background: #ea337f; color: #fff; border: none; border-radius: 24px; padding: 10px 14px; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2); font: 600 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+}
+.pact-launcher:focus { outline: 2px solid #111; outline-offset: 2px; }
+
+.pact-panel {
+  position: fixed; right: 16px; bottom: 16px; width: 340px; max-height: 60vh; display: flex; flex-direction: column;
+  background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.pact-hidden { display: none; }
+
+.pact-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: #f7f7fb; border-bottom: 1px solid #ececec; }
+.pact-title { font: 600 14px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Arial; color: #111; }
+pact-close { background: transparent; border: none; font-size: 18px; cursor: pointer; padding: 4px; }
+
+.pact-tools { display: flex; gap: 6px; align-items: center; }
+.pact-record { background: #065f46; color: #fff; border: none; border-radius: 6px; padding: 6px 8px; cursor: pointer; }
+.pact-record.pact-recording { background: #dc2626; }
+.pact-save, .pact-run-recording, .pact-clear-recording { background: #374151; color: #fff; border: none; border-radius: 6px; padding: 6px 8px; cursor: pointer; }
+
+/* Recorder highlight */
+.pact-recorder-highlight { outline: 2px solid #f59e0b !important; outline-offset: 2px !important; }
+
+.pact-body { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; }
+.pact-quick { display: flex; gap: 8px; flex-wrap: wrap; }
+.pact-quick-btn { background: #f0f4ff; color: #1f3ab2; border: 1px solid #d6defc; border-radius: 6px; padding: 6px 8px; cursor: pointer; }
+
+.pact-chat { }
+.pact-form { display: grid; grid-template-columns: 1fr auto auto; gap: 6px; }
+.pact-input { border: 1px solid #d1d5db; border-radius: 6px; padding: 8px 10px; font: 14px system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+.pact-run, .pact-stop { background: #111827; color: #fff; border: none; border-radius: 6px; padding: 8px 10px; cursor: pointer; }
+.pact-stop { background: #ef4444; }
+
+.pact-log { border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px; height: 180px; overflow: auto; font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; background: #fafafa; }
+.pact-log-item { padding: 2px 0; }
+
+/* Confirmation modal */
+.pact-confirm { position: fixed; inset: 0; background: rgba(0,0,0,0.35); display: grid; place-items: center; z-index: 2147483640; }
+.pact-confirm-box { background: #fff; border-radius: 10px; border: 1px solid #e5e7eb; width: 300px; padding: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+.pact-confirm-msg { margin-bottom: 10px; font: 14px system-ui, -apple-system, Segoe UI, Roboto, Arial; color: #111; }
+.pact-confirm-actions { display: flex; gap: 8px; justify-content: flex-end; }
+.pact-btn-yes { background: #2563eb; color: #fff; border: none; border-radius: 6px; padding: 8px 10px; }
+.pact-btn-no { background: #6b7280; color: #fff; border: none; border-radius: 6px; padding: 8px 10px; }
