@@ -6,7 +6,9 @@
     "clean": "rm -rf dist",
     "build": "rm -rf dist && mkdir -p dist && npx esbuild src/index.js --bundle --format=iife --global-name=PendoAct --sourcemap --minify --outfile=dist/act-widget.js && cp styles/act-widget.css dist/act-widget.css",
     "dev": "npx esbuild src/index.js --bundle --format=iife --global-name=PendoAct --sourcemap --outfile=dist/act-widget.js --watch",
-    "preview": "npx http-server dist -c-1 -p 8080"
+    "preview": "npx http-server dist -c-1 -p 8080",
+    "validate:security-policy": "node scripts/validate-security-policy-version.mjs",
+    "test:security-policy": "node --test scripts/validate-security-policy-version.test.mjs"
   },
   "repository": {
     "type": "git",
