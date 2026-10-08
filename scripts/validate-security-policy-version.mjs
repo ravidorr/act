@@ -5,7 +5,7 @@ const SUPPORTED_STATUS = String.fromCodePoint(0x2713);
 const STABLE_VERSION = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?$/;
 const SUPPORTED_VERSIONS_SECTION = /^##[ \t]+Supported Versions[ \t]*\r?\n(?<content>[\s\S]*?)(?=^##[ \t]|(?![\s\S]))/m;
 const SUPPORTED_VERSIONS_TABLE = /^\|[ \t]*Version[ \t]*\|[ \t]*Supported[ \t]*\|[ \t]*\r?\n^\|[ \t]*:?-{3,}:?[ \t]*\|[ \t]*:?-{3,}:?[ \t]*\|[ \t]*\r?\n(?<rows>(?:^\|[^\r\n]*\|[ \t]*(?:\r?\n|$))*)/m;
-const VERSION_ROW = /^\|\s*([0-9]+\.[0-9]+\.[0-9]+(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?)\s*\|\s*([^|]+?)\s*\|\s*$/gm;
+const TABLE_ROW = /^\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*$/gm;
 
 export function readStablePackageVersion(packageJson) {
   try {
@@ -30,11 +30,19 @@ export function validateSecurityPolicyVersion(packageJson, securityPolicy) {
     return { valid: false, error: "SECURITY.md is missing a supported-versions table." };
   }
 
-  const rows = [...table.groups.rows.matchAll(VERSION_ROW)];
+  const rows = [...table.groups.rows.matchAll(TABLE_ROW)];
   const matchingRow = rows.find(([, rowVersion]) => rowVersion === version);
+  const supportedRows = rows.filter(([, , status]) => status.trim() === SUPPORTED_STATUS);
 
-  if (matchingRow?.[2].trim() === SUPPORTED_STATUS) {
+  if (supportedRows.length === 1 && matchingRow?.[2].trim() === SUPPORTED_STATUS) {
     return { valid: true, version };
+  }
+
+  if (supportedRows.length > 1) {
+    return {
+      valid: false,
+      error: "SECURITY.md must declare only the package version as supported.",
+    };
   }
 
   if (matchingRow) {
@@ -44,7 +52,7 @@ export function validateSecurityPolicyVersion(packageJson, securityPolicy) {
     };
   }
 
-  const supportedVersion = rows.find(([, , status]) => status.trim() === SUPPORTED_STATUS)?.[1];
+  const supportedVersion = supportedRows[0]?.[1];
 
   if (supportedVersion) {
     return {

@@ -33,6 +33,37 @@ test("accepts SemVer build metadata when the policy matches exactly", () => {
   );
 });
 
+test("rejects policy with an additional supported version", () => {
+  const policy = policyFor("1.2.3").replace(
+    "| Earlier releases | ✘ |",
+    `| 1.2.2 | ${supportedStatus} |
+| Earlier releases | ✘ |`,
+  );
+
+  assert.deepEqual(
+    validateSecurityPolicyVersion('{"version":"1.2.3"}', policy),
+    {
+      valid: false,
+      error: "SECURITY.md must declare only the package version as supported.",
+    },
+  );
+});
+
+test("rejects policy that marks earlier releases as supported", () => {
+  const policy = policyFor("1.2.3").replace(
+    "| Earlier releases | ✘ |",
+    `| Earlier releases | ${supportedStatus} |`,
+  );
+
+  assert.deepEqual(
+    validateSecurityPolicyVersion('{"version":"1.2.3"}', policy),
+    {
+      valid: false,
+      error: "SECURITY.md must declare only the package version as supported.",
+    },
+  );
+});
+
 test("rejects prerelease package versions", () => {
   assert.equal(
     validateSecurityPolicyVersion('{"version":"1.2.3-beta.1"}', policyFor("1.2.3")).valid,
