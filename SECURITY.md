@@ -6,9 +6,10 @@ Security fixes are provided for the latest release only.
 
 | Version | Supported |
 | ------- | --------- |
-| 1.0.0 | ✓ |
+| 1.0.1 | ✓ |
 | Earlier releases | ✘ |
-## Reporting a Vulnerability
+
+## Reporting a vulnerability
 
 Do not report suspected vulnerabilities in public issues, discussions, or pull
 requests.
@@ -23,7 +24,7 @@ Include:
 - Steps to reproduce it, including a proof of concept when available.
 - The potential impact and any suggested mitigation.
 
-We will acknowledge receipt within five business days and provide progress
+We will acknowledge receipt within three business days and provide progress
 updates at least weekly while we investigate. If we accept the report, we will
 coordinate a fix and disclosure with you. If we decline it, we will explain
 our reasoning.

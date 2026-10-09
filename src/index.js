@@ -15,7 +15,7 @@ function getBaseUrl() {
   }
 }
 
-function ensureStylesheet(href) {
+export function ensureStylesheet(href) {
   if (!href) return;
   const existing = Array.from(document.styleSheets).find(ss => ss.href === href);
   if (existing) return;

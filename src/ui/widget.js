@@ -5,7 +5,33 @@ import { runPlan as run } from '../agent/core.js';
 import { workdayTakeDayOffNextMonday as samplePlan } from '../tasks/workday-take-day-off.js';
 import { planFromText, loadRecordedPlan } from '../llm/adapter.js';
 
-export function createWidget({ runPlan = run, plans = { samplePlan }, allowlist = [/.*/] } = {}) {
+export function cssPath(el) {
+  if (!el || el.nodeType !== 1) return null;
+  if (el.id) return `#${el.id}`;
+  if (el.getAttribute('data-testid')) return `[data-testid="${el.getAttribute('data-testid')}"]`;
+  const parts = [];
+  while (el && el.nodeType === 1 && parts.length < 4 && !el.id && !el.getAttribute('data-testid')) {
+    let selector = el.nodeName.toLowerCase();
+    if (el.className) {
+      const cls = String(el.className).trim().split(/\s+/).slice(0,2).join('.');
+      if (cls) selector += `.${cls}`;
+    }
+    const parent = el.parentNode;
+    if (!parent) break;
+    const siblings = Array.from(parent.children).filter(c => c.nodeName === el.nodeName);
+    if (siblings.length > 1) selector += `:nth-of-type(${1 + siblings.indexOf(el)})`;
+    parts.unshift(selector);
+    el = parent;
+    if (el.id) parts.unshift(`#${el.id}`);
+  }
+  return parts.join(' > ');
+}
+
+function isRecordableTarget(el) {
+  return el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el.isContentEditable;
+}
+
+export function createWidget({ runPlan = run, allowlist = [/.*/] } = {}) {
   const state = { open: false, running: false, controller: null };
 
   // Root container
@@ -73,7 +99,13 @@ export function createWidget({ runPlan = run, plans = { samplePlan }, allowlist 
     state.open = false;
     panel.classList.add('pact-hidden');
   }
-  function toggle() { state.open ? close() : open(); }
+  function toggle() {
+    if (state.open) {
+      close();
+    } else {
+      open();
+    }
+  }
 
   launcher.addEventListener('click', toggle);
   closeBtn.addEventListener('click', close);
@@ -103,7 +135,11 @@ export function createWidget({ runPlan = run, plans = { samplePlan }, allowlist 
   const recorder = { enabled: false, steps: [], handlers: [] };
 
   recordBtn.addEventListener('click', () => {
-    recorder.enabled ? stopRecorder() : startRecorder();
+    if (recorder.enabled) {
+      stopRecorder();
+    } else {
+      startRecorder();
+    }
   });
   saveBtn.addEventListener('click', () => saveRecording());
   runRecordingBtn.addEventListener('click', async () => {
@@ -134,11 +170,7 @@ export function createWidget({ runPlan = run, plans = { samplePlan }, allowlist 
       if (!recorder.enabled) return;
       const el = e.target;
       if (el.closest('.pact-root')) return;
-      if (!(el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el.isContentEditable)) return;
-      const target = toTarget(el);
-      const value = el.isContentEditable ? (el.textContent || '') : (el.value || '');
-      recorder.steps.push({ action: 'type', target, value });
-      highlight(el);
+      recordChange(el, isRecordableTarget(el));
     };
 
     document.addEventListener('click', onClick, true);
@@ -164,6 +196,14 @@ export function createWidget({ runPlan = run, plans = { samplePlan }, allowlist 
     appendLog('Recorder', 'Saved to localStorage under key: pact.recorder.plan');
   }
 
+  function recordChange(el, isRecordable) {
+    if (!isRecordable) return;
+    const target = toTarget(el);
+    const value = el.isContentEditable ? (el.textContent || '') : (el.value || '');
+    recorder.steps.push({ action: 'type', target, value });
+    highlight(el);
+  }
+
   function toTarget(el) {
     return {
       selector: cssPath(el),
@@ -177,28 +217,6 @@ export function createWidget({ runPlan = run, plans = { samplePlan }, allowlist 
   function highlight(el) {
     el.classList.add('pact-recorder-highlight');
     setTimeout(() => el.classList.remove('pact-recorder-highlight'), 300);
-  }
-
-  function cssPath(el) {
-    if (!el || el.nodeType !== 1) return null;
-    if (el.id) return `#${el.id}`;
-    if (el.getAttribute('data-testid')) return `[data-testid="${el.getAttribute('data-testid')}"]`;
-    const parts = [];
-    while (el && el.nodeType === 1 && parts.length < 4 && !el.id && !el.getAttribute('data-testid')) {
-      let selector = el.nodeName.toLowerCase();
-      if (el.className) {
-        const cls = String(el.className).trim().split(/\s+/).slice(0,2).join('.');
-        if (cls) selector += `.${cls}`;
-      }
-      const parent = el.parentNode;
-      if (!parent) break;
-      const siblings = Array.from(parent.children).filter(c => c.nodeName === el.nodeName);
-      if (siblings.length > 1) selector += `:nth-of-type(${1 + siblings.indexOf(el)})`;
-      parts.unshift(selector);
-      el = parent;
-      if (el.id) parts.unshift(`#${el.id}`);
-    }
-    return parts.join(' > ');
   }
 
   function appendLog(source, message) {

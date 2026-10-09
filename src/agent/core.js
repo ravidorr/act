@@ -5,7 +5,7 @@ import { findTarget } from './selectors.js';
 import { isAllowedUrl, requiresConfirmation } from './safety.js';
 
 export async function runPlan(plan, opts) {
-  const { allowlist = [/.*/], onEvent = () => {}, confirm = defaultConfirm, signal } = opts || {};
+  const { allowlist = [/.*/], onEvent = () => undefined, confirm = defaultConfirm, signal } = opts || {};
   const ctx = { allowlist, onEvent, confirm, aborted: false };
 
   const abortHandler = () => { ctx.aborted = true; };
@@ -43,13 +43,13 @@ async function execStep(step, ctx) {
     case 'click':
       return click(step, ctx);
     case 'type':
-      return type(step, ctx);
+      return type(step);
     case 'select':
       return select(step, ctx);
     case 'scroll':
-      return scroll(step, ctx);
+      return scroll(step);
     case 'extract':
-      return extract(step, ctx);
+      return extract(step);
     default:
       throw new Error(`Unknown action: ${step.action}`);
   }
@@ -85,7 +85,7 @@ async function click(step, ctx) {
   el.click();
 }
 
-async function type(step, ctx) {
+async function type(step) {
   const el = await findTarget(step.target, { timeoutMs: step.timeoutMs ?? 10000 });
   if (!(el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el.isContentEditable)) {
     throw new Error('target_not_typable');
@@ -109,12 +109,12 @@ async function select(step, ctx) {
     const value = step.value;
     const label = step.label;
     let toSet = value;
-    if (label != null) {
+    if (label !== null && label !== undefined) {
       const opt = Array.from(sel.options).find(o => o.text.trim() === label);
       if (!opt) throw new Error('option_not_found');
       toSet = opt.value;
     }
-    if (toSet == null) throw new Error('select_requires_value_or_label');
+    if (toSet === null || toSet === undefined) throw new Error('select_requires_value_or_label');
     sel.value = toSet;
     sel.dispatchEvent(new Event('input', { bubbles: true }));
     sel.dispatchEvent(new Event('change', { bubbles: true }));
@@ -127,7 +127,7 @@ async function select(step, ctx) {
   }
 }
 
-async function scroll(step, ctx) {
+async function scroll(step) {
   if (step.target) {
     const el = await findTarget(step.target, { timeoutMs: step.timeoutMs ?? 10000 });
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -136,7 +136,7 @@ async function scroll(step, ctx) {
   }
 }
 
-async function extract(step, ctx) {
+async function extract(step) {
   const el = await findTarget(step.target, { timeoutMs: step.timeoutMs ?? 10000 });
   if (step.as === 'text') return el.innerText.trim();
   if (step.as === 'list') return Array.from(el.querySelectorAll('li, [role="listitem"]')).map(x => x.innerText.trim());
@@ -149,7 +149,7 @@ function tableToArray(root) {
   return rows.map(r => Array.from(r.querySelectorAll('th,td')).map(c => c.innerText.trim()));
 }
 
-function labelFor(el) {
+export function labelFor(el) {
   return (el.getAttribute('aria-label') || el.innerText || el.getAttribute('name') || el.id || el.tagName).trim().slice(0, 80);
 }
 

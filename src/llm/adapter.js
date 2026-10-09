@@ -3,7 +3,7 @@
 
 import { workdayTakeDayOffNextMonday } from '../tasks/workday-take-day-off.js';
 
-export async function planFromText(text, context = {}) {
+export async function planFromText(text) {
   const t = (text || '').toLowerCase();
 
   // Heuristic routing
@@ -27,7 +27,9 @@ export function loadRecordedPlan() {
     if (!raw) return null;
     const plan = JSON.parse(raw);
     if (plan && Array.isArray(plan.steps)) return plan;
-  } catch {}
+  } catch {
+    return null;
+  }
   return null;
 }
 
