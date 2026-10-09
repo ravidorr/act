@@ -142,6 +142,7 @@ describe('createWidget', () => {
   it('shows confirmation dialogs and reports cancelled task execution', async () => {
     const runPlan = vi.fn(async (_plan, options) => {
       const confirmation = options.confirm({ message: 'Proceed?' });
+      expect(document.querySelector('.pact-confirm').parentElement).toBe(root);
       document.querySelector('.pact-btn-yes').click();
       await expect(confirmation).resolves.toBe(true);
 
@@ -155,6 +156,7 @@ describe('createWidget', () => {
 
     await widget.runTask({ task: 'Risky task', steps: [] });
 
+    expect(root.querySelector('.pact-confirm')).toBeNull();
     expect(document.querySelector('.pact-confirm')).toBeNull();
     expect(root.querySelector('.pact-log').textContent).toContain('Stopped by user');
   });

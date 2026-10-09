@@ -1,4 +1,4 @@
-:root {
+.pact-root {
   --color-bg: #fff;
   --color-surface: #f6f7f9;
   --color-text: #14161a;
@@ -22,7 +22,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
+  .pact-root:not([data-theme='light']) {
     --color-bg: #0f1115;
     --color-surface: #181b21;
     --color-text: #f2f4f7;
@@ -34,7 +34,7 @@
   }
 }
 
-:root[data-theme='dark'] {
+.pact-root[data-theme='dark'] {
   --color-bg: #0f1115;
   --color-surface: #181b21;
   --color-text: #f2f4f7;

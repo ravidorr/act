@@ -245,7 +245,7 @@ export function createWidget({ runPlan = run, allowlist = [/.*/] } = {}) {
       const no = wrap.querySelector('.pact-btn-no');
       yes.addEventListener('click', () => { cleanup(); resolve(true); });
       no.addEventListener('click', () => { cleanup(); resolve(false); });
-      document.body.appendChild(wrap);
+      root.appendChild(wrap);
       function cleanup() { wrap.remove(); }
     });
   }
