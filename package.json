@@ -1,12 +1,31 @@
 {
   "name": "act",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "private": true,
+  "type": "module",
   "main": "dist/act-widget.js",
+  "engines": {
+    "node": ">=24.21.0 <25"
+  },
+  "packageManager": "npm@11.19.0",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "rm -rf dist && mkdir -p dist && npx esbuild src/index.js --bundle --format=iife --global-name=PendoAct --sourcemap --minify --outfile=dist/act-widget.js && cp styles/act-widget.css dist/act-widget.css",
-    "dev": "npx esbuild src/index.js --bundle --format=iife --global-name=PendoAct --sourcemap --outfile=dist/act-widget.js --watch",
-    "preview": "npx http-server dist -c-1 -p 8080",
+    "build": "rm -rf dist && mkdir -p dist && esbuild src/index.js --bundle --format=iife --global-name=PendoAct --sourcemap --minify --outfile=dist/act-widget.js && cat design-system/tokens.css styles/act-widget.css > dist/act-widget.css && cp dist/act-widget.js dist/act-widget.js.map dist/act-widget.css docs/",
+    "dev": "esbuild src/index.js --bundle --format=iife --global-name=PendoAct --sourcemap --outfile=dist/act-widget.js --watch",
+    "preview": "http-server dist -c-1 -p 8080",
+    "prepare": "husky",
+    "lint": "npm run lint:js && npm run lint:css && npm run lint:html && npm run lint:md",
+    "lint:js": "eslint --max-warnings=0 .",
+    "lint:css": "stylelint --allow-empty-input --max-warnings=0 \"**/*.css\"",
+    "lint:html": "node scripts/lint-html.mjs",
+    "lint:md": "markdownlint-cli2",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run test:unit && npm run test:security-policy",
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage && npm run test:security-policy",
+    "check:generated": "node -e \"process.exit(0)\"",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "validate:security-policy": "node scripts/validate-security-policy-version.mjs",
     "test:security-policy": "node --test scripts/validate-security-policy-version.test.mjs"
   },
@@ -23,6 +42,25 @@
   "homepage": "https://github.com/ravidorr/act#readme",
   "description": "Pendo Act POC (client-side automation) - JavaScript bundle for Resource Center custom module.",
   "devDependencies": {
-    "esbuild": "^0.23.1"
+    "@eslint/js": "10.0.1",
+    "@lhci/cli": "0.15.1",
+    "@storybook/html-vite": "10.6.1",
+    "@vitest/coverage-v8": "5.0.3",
+    "esbuild": "0.28.2",
+    "eslint": "10.12.0",
+    "globals": "17.13.0",
+    "html-validate": "11.16.2",
+    "http-server": "14.1.1",
+    "husky": "9.1.7",
+    "jsdom": "30.1.2",
+    "lint-staged": "17.6.0",
+    "markdownlint-cli2": "0.23.3",
+    "semver": "7.8.5",
+    "storybook": "10.6.1",
+    "stylelint": "17.16.0",
+    "stylelint-config-standard": "40.0.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.71.1",
+    "vitest": "5.0.3"
   }
 }

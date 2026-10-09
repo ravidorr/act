@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "target": "es2022"
+  },
+  "include": ["src/**/*.js", "scripts/**/*.mjs", "test/**/*.js", "vitest.config.ts"]
+}

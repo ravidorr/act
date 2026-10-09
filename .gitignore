@@ -2,5 +2,10 @@
 node_modules
 .DS_Store
 dist
+coverage
+.lighthouseci
+storybook-static
+.env*
+!.env.example
 npm-debug.log*
 

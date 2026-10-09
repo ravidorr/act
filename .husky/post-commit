@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# Report lockfile drift without rewriting history.
+npm install --package-lock-only --dry-run
