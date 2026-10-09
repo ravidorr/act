@@ -10,7 +10,7 @@
   "packageManager": "npm@11.19.0",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "rm -rf dist && mkdir -p dist && esbuild src/index.js --bundle --format=iife --global-name=PendoAct --sourcemap --minify --outfile=dist/act-widget.js && cat design-system/tokens.css styles/act-widget.css > dist/act-widget.css",
+    "build": "rm -rf dist && mkdir -p dist && esbuild src/index.js --bundle --format=iife --global-name=PendoAct --sourcemap --minify --outfile=dist/act-widget.js && cat design-system/tokens.css styles/act-widget.css > dist/act-widget.css && cp dist/act-widget.js dist/act-widget.js.map dist/act-widget.css docs/",
     "dev": "esbuild src/index.js --bundle --format=iife --global-name=PendoAct --sourcemap --outfile=dist/act-widget.js --watch",
     "preview": "http-server dist -c-1 -p 8080",
     "prepare": "husky",

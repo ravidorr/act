@@ -23,6 +23,7 @@ describe('createWidget', () => {
     const form = root.querySelector('.pact-form');
     const input = root.querySelector('.pact-input');
 
+    expect(input.getAttribute('aria-label')).toBe('Automation request');
     launcher.click();
     expect(panel.classList.contains('pact-hidden')).toBe(false);
     launcher.click();

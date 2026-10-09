@@ -66,7 +66,7 @@ export function createWidget({ runPlan = run, allowlist = [/.*/] } = {}) {
       </div>
       <div class="pact-chat">
         <form class="pact-form">
-          <input class="pact-input" name="q" placeholder="Describe what to do…" autocomplete="off" />
+          <input class="pact-input" name="q" aria-label="Automation request" placeholder="Describe what to do…" autocomplete="off" />
           <button class="pact-run" type="submit">Run</button>
           <button class="pact-stop" type="button">Stop</button>
         </form>
