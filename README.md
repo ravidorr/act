@@ -1,5 +1,14 @@
 # Pendo Act POC (Client-side, JavaScript)
 
+[![CI](https://github.com/ravidorr/act/actions/workflows/ci.yml/badge.svg)](https://github.com/ravidorr/act/actions/workflows/ci.yml)
+[![Release](https://github.com/ravidorr/act/actions/workflows/release.yml/badge.svg)](https://github.com/ravidorr/act/actions/workflows/release.yml)
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/ravidorr/act/pulls)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/ravidorr/act/graphs/commit-activity)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![Node.js](https://img.shields.io/badge/Node.js-24-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![ESLint](https://img.shields.io/badge/ESLint-10-4B32C3?logo=eslint&logoColor=white)](https://eslint.org/)
+[![Client automation](https://img.shields.io/badge/Client-automation-FF6900?logo=javascript&logoColor=white)](https://github.com/ravidorr/act)
 This POC produces a single JS bundle and a CSS file to load in your Pendo Resource Center as a custom module, enabling a chat/quick-action UI and a client-side automation agent that can click/type/select/navigate in the current app.
 
 ## Key points
