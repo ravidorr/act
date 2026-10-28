@@ -2,6 +2,12 @@
 
 All notable changes are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [1.0.3] - 2026-10-28
+
+### Changed
+
+- Bump markdown-it and markdownlint-cli2 development dependencies.
+
 ## [1.0.2] - 2026-10-28
 
 ### Changed
