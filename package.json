@@ -1,6 +1,6 @@
 {
   "name": "act",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "type": "module",
   "main": "dist/act-widget.js",
@@ -65,6 +65,7 @@
   },
   "overrides": {
     "tmp": "0.2.7",
-    "uuid": "11.1.1"
+    "uuid": "11.1.1",
+    "katex": "0.18.2"
   }
 }

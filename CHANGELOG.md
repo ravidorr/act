@@ -2,6 +2,12 @@
 
 All notable changes are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [1.0.5] - 2026-10-28
+
+### Security
+
+- Override transitive `katex` (0.18.2) pulled in by `markdownlint-cli2` to resolve a Dependabot alert.
+
 ## [1.0.4] - 2026-10-28
 
 ### Security
