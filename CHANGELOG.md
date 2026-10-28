@@ -2,6 +2,12 @@
 
 All notable changes are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [1.0.4] - 2026-10-28
+
+### Security
+
+- Override transitive `tmp` (0.2.7) and `uuid` (11.1.1) pulled in by `@lhci/cli` to resolve Dependabot alerts.
+
 ## [1.0.3] - 2026-10-28
 
 ### Changed
